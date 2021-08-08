@@ -9,11 +9,11 @@ import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -21,9 +21,25 @@ import static org.hamcrest.Matchers.equalTo;
 /**
  * Unit test for simple App.
  */
+@RunWith(Parameterized.class)
 public class GoogleDeleteTest
 {
 public static Properties prp;
+    private String pId=null;
+
+    public GoogleDeleteTest(String pId){
+        this.pId = pId;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> getData(){
+        Collection<Object[]> params = new ArrayList<>(2);
+        params.add(new Object[]{"xyz"});
+        params.add(new Object[]{"def"});
+        return params;
+
+    }
+
     @BeforeClass
      public static void startup() throws IOException {
         prp = Utility.getPropertyFile();
@@ -35,7 +51,7 @@ public static Properties prp;
 //        RestAssured.baseURI = prp.getProperty("HOST1");
         RestAssured.baseURI = System.getProperty("HOST"); //will be coming from jenkins through maven command
         Map<String,String> map = new HashMap<>();
-        map.put("place_id",prp.getProperty("PlaceID"));
+        map.put("place_id",pId);   //parametarization acheived through junit
         Response res = given().log().all().
                 queryParam("key",prp.getProperty("Key")).
                 body(map).
