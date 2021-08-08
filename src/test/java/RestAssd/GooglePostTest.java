@@ -29,7 +29,8 @@ public static Properties prp;
     @Test
     public void googlePost() throws IOException {
         //BaseURL or Host
-        RestAssured.baseURI = prp.getProperty("HOST1");
+//        RestAssured.baseURI = prp.getProperty("HOST1");
+        RestAssured.baseURI = System.getProperty("HOST");  //will be coming from jenkins through maven command
         Response res = given().log().all().
                 queryParam("key",prp.getProperty("Key")).
                 body(payload.googlePostPayload()).

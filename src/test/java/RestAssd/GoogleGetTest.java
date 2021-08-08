@@ -24,7 +24,8 @@ public class GoogleGetTest {
 
     @Test
     public void getGoogleAPI(){
-        RestAssured.baseURI = prp.getProperty("HOST1");
+//        RestAssured.baseURI = prp.getProperty("HOST1");
+        RestAssured.baseURI = System.getProperty("HOST"); //will be coming from jenkins through maven command
         Response res = given().log().all().
                 queryParam("key",prp.getProperty("Key")).
                 queryParam("place_id",prp.getProperty("PlaceID")).

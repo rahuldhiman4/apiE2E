@@ -32,7 +32,8 @@ public static Properties prp;
     @Test
     public void googleDelete()  {
         //BaseURL or Host
-        RestAssured.baseURI = prp.getProperty("HOST1");
+//        RestAssured.baseURI = prp.getProperty("HOST1");
+        RestAssured.baseURI = System.getProperty("HOST"); //will be coming from jenkins through maven command
         Map<String,String> map = new HashMap<>();
         map.put("place_id",prp.getProperty("PlaceID"));
         Response res = given().log().all().
